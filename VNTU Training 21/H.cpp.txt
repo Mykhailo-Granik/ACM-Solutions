@@ -1,0 +1,66 @@
+#include <list>
+#include <map>
+#include <set>
+#include <deque>
+#include <stack>
+#include <queue>
+#include <algorithm>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <memory.h>
+#include <ctime>
+#include <bitset>
+#include <unordered_map>
+#include <unordered_set>
+
+using namespace std;
+
+#define ABS(a) ((a>0)?a:-(a))
+#define MIN(a,b) ((a<b)?(a):(b))
+#define MAX(a,b) ((a<b)?(b):(a))
+#define FOR(i,a,n) for (int i=(a);i<(n);++i)
+#define MEMS(a,b) memset((a),(b),sizeof(a))
+#define FI(i,n) for (int i=0; i<(n); ++i)
+#define pnt pair <int, int>
+#define mp make_pair
+#define LL long long
+#define U unsigned
+
+char s1[60][60];
+char s2[60][60];
+
+
+int main() {
+	int n1,m1,n2,m2;
+	cin>>n1>>m1;
+	FOR(i,0,n1)
+		scanf("%s",s1[i]);
+	cin>>n2>>m2;
+	FOR(i,0,n2)
+		scanf("%s",s2[i]);
+	int sum = -1;
+	int x = -1;
+	int y = -1;
+	FOR(dx,-max(n2,n1)+1,n2) {
+		FOR(dy,-max(m2,m1)+1,m2) {
+			int nowSum = 0;
+			FOR(i,0,n1) {
+				FOR(j,0,m1) {
+					if ((i+dx>=0) && (i+dx<n2) && (j+dy>=0) && (j+dy<m2)) {
+						nowSum += (s1[i][j] - '0')*(s2[i+dx][j+dy] - '0');
+					}
+				}
+			}
+			if (nowSum > sum) {
+				sum = nowSum;
+				x = dx;
+				y = dy;
+			}
+		}
+	}
+	cout<<x<<" "<<y<<endl;
+}

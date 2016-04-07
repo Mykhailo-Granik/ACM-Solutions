@@ -1,0 +1,104 @@
+#include <list>
+#include <map>
+#include <set>
+#include <deque>
+#include <stack>
+#include <queue>
+#include <algorithm>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <memory.h>
+#include <ctime>
+#include <bitset>
+#include <unordered_map>
+#include <unordered_set>
+
+using namespace std;
+
+#define ABS(a) ((a>0)?a:-(a))
+#define MIN(a,b) ((a<b)?(a):(b))
+#define MAX(a,b) ((a<b)?(b):(a))
+#define FOR(i,a,n) for (int i=(a);i<(n);++i)
+#define MEMS(a,b) memset((a),(b),sizeof(a))
+#define FI(i,n) for (int i=0; i<(n); ++i)
+#define pnt pair <int, int>
+#define mp make_pair
+#define LL long long
+#define U unsigned
+
+char s[110][10010];
+int fi[110];
+int last[110];
+int dp1[110][10010];
+int dp2[110][10010];
+int res[10010];
+
+int main() {
+	int n,m;
+	scanf("%d%d",&n,&m);
+	FOR(i,0,n)
+		scanf("%s", s[i]);
+	MEMS(fi, -1);
+	MEMS(last, -1);
+	MEMS(dp1,-1);
+	MEMS(dp2,-1);
+	FOR(i,0,n)
+	{
+		FOR(j,0,m)
+		{
+			if (s[i][j] == '1')
+			{
+				dp1[i][j] = j;
+				last[i] = j;
+			} else {
+				if (j)
+					dp1[i][j] = dp1[i][j - 1];
+			}
+		}
+		for (int j = m - 1; j >= 0; --j) {
+			if (s[i][j] == '1') {
+				dp2[i][j] = j;
+				fi[i] = j;
+			} else {
+				if (j + 1 != m) {
+					dp2[i][j] = dp2[i][j+1];
+				}
+			}
+		}
+	}
+	FOR(i,0,n)
+	{
+		if (fi[i] == -1)
+		{
+			cout<<-1<<endl;
+			return 0;
+		}
+	}
+	FOR(i,0,n)
+	{
+		FOR(j,0,m)
+		{
+			int now = 1000000;
+			if (dp1[i][j] != -1) {
+				now = min(now, j - dp1[i][j]);
+			} else {
+				now = min(now, m - last[i] + j);
+			}
+			if (dp2[i][j] != -1) {
+				now = min(now, dp2[i][j] - j);
+			} else {
+				now = min(now, fi[i] + m - j);
+			}
+			res[j] += now;
+		}
+	}
+	int ans = res[0];
+	FOR(i,1,m)
+		ans = min(ans, res[i]);
+	cout<<ans<<endl;
+	return 0;
+}

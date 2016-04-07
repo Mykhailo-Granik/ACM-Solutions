@@ -1,0 +1,61 @@
+#include <list>
+#include <map>
+#include <set>
+#include <deque>
+#include <stack>
+#include <queue>
+#include <algorithm>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <memory.h>
+#include <ctime>
+#include <bitset>
+#include <unordered_map>
+#include <unordered_set>
+
+using namespace std;
+
+#define ABS(a) ((a>0)?a:-(a))
+#define MIN(a,b) ((a<b)?(a):(b))
+#define MAX(a,b) ((a<b)?(b):(a))
+#define FOR(i,a,n) for (int i=(a);i<(n);++i)
+#define MEMS(a,b) memset((a),(b),sizeof(a))
+#define FI(i,n) for (int i=0; i<(n); ++i)
+#define pnt pair <int, int>
+#define mp make_pair
+#define LL long long
+#define U unsigned
+
+inline int getSum(LL val) {
+	int res = 0;
+	while (val){
+		res += (val%10);
+		val /= 10;
+	}
+	return res;
+}
+
+int main() {
+	LL n;
+	cin>>n;
+	LL res = 1000000000000000000ll;
+	FOR(sum,1,82) {
+		LL d = sum*sum+4*n;
+		LL val = (LL)sqrt(d);
+		FOR(i,val-2,val+3) {
+			if (val*val == d) {
+				if (((val - sum)%2 == 0) && (getSum((val - sum)/2) == sum)) {
+					res = min(res, (val-sum)/2);
+				}
+			}
+		}
+	}
+	if (res == 1000000000000000000ll)
+		res = -1;
+	cout<<res<<endl;
+	return 0;
+}
